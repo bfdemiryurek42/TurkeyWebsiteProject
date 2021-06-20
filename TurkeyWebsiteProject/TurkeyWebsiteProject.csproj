@@ -13,4 +13,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.6" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\Food\" />
+    <Folder Include="wwwroot\img\History\" />
+    <Folder Include="wwwroot\img\Cities\" />
+    <Folder Include="wwwroot\img\Territories\" />
+  </ItemGroup>
+
 </Project>
