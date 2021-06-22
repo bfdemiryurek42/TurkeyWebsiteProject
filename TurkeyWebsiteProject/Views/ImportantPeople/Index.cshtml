@@ -44,7 +44,15 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
+                @if (item.Image != null)
+                {
+                    <img src="~/img/ImportantPeople/@item.Image" alt="Important Person Image" class="img-thumbnail" />
+                }
+                else
+                {
+                    <img src="~/img/placeholder.png" alt="Important Person Image" class="img-thumbnail" />
+
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DateOfBirth)
