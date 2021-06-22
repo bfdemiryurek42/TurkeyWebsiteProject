@@ -11,9 +11,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" name="currentImage" id="currentImage" value="@Model.Image" />
             <div class="form-group">
                 <label asp-for="CityId" class="control-label"></label>
                 <select asp-for="CityId" class="form-control" asp-items="ViewBag.CityId"></select>
@@ -31,7 +32,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <input asp-for="Image" class="form-control" type="file" />
+                @if (Model.Image != null)
+                {
+                    <img src="~/img/ImportantPeople/@Model.Image" alt="Important Person Image" class="img-thumbnail" />
+                }
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">

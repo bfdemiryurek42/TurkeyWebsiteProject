@@ -9,7 +9,7 @@ a.navbar-brand {
 
 /* Provide sufficient contrast against white background */
 a {
-  color: #0366d6;
+    color: #F44336;
 }
 
 .btn-primary {
@@ -75,5 +75,13 @@ body {
     width: 750px;
     height: 500px;
     margin-bottom: 20px;
+}
+
+.img-thumbnail{
+    width:150px;
+}
+
+.navbar-light {
+    background-color: #EA3333;
 }
 

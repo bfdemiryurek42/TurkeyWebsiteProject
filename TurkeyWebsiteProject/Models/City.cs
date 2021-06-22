@@ -11,7 +11,9 @@ namespace TurkeyWebsiteProject.Models
         public int Id { get; set; }
         [Required]
         [Range(1, 7)]
+        [Display(Name = "Territory")]
         public int TerritoryId { get; set; }
+        [Display(Name = "Food")]
         public int FoodId { get; set; }
         [Required]
         public string Name { get; set; }

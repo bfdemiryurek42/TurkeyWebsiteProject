@@ -10,7 +10,7 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table sortable">
+<table class="table sortable table-striped table-hover">
     <thead>
         <tr>
             <th>
@@ -38,7 +38,15 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
+                @if (item.Image != null)
+                {
+                    <img src="~/img/Cities/@item.Image" alt="City Image" class="img-thumbnail" />
+                }
+                else
+                {
+                    <img src="~/img/placeholder.png" alt="City Image" class="img-thumbnail" />
+
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)

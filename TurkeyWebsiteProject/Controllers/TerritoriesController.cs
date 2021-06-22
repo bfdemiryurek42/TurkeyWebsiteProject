@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -54,10 +56,22 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Image")] Territory territory)
+        public async Task<IActionResult> Create([Bind("Id,Name")] Territory territory, IFormFile Image)
         {
             if (ModelState.IsValid)
             {
+                if (Image != null)
+                {
+                    var filePath = Path.GetTempFileName();
+                    var fileName = Guid.NewGuid() + "-" + Image.FileName;
+                    var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\img\\Territories\\" + fileName;
+
+                    using (var stream = new FileStream(uploadPath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+                    territory.Image = fileName;
+                }
                 _context.Add(territory);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -86,7 +100,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image")] Territory territory)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Territory territory, IFormFile Image, string CurrentImage)
         {
             if (id != territory.Id)
             {
@@ -97,6 +111,22 @@ namespace TurkeyWebsiteProject.Controllers
             {
                 try
                 {
+                    if (Image != null)
+                    {
+                        var filePath = Path.GetTempFileName();
+                        var fileName = Guid.NewGuid() + "-" + Image.FileName;
+                        var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\img\\Territories\\" + fileName;
+
+                        using (var stream = new FileStream(uploadPath, FileMode.Create))
+                        {
+                            await Image.CopyToAsync(stream);
+                        }
+                        territory.Image = fileName;
+                    }
+                    else
+                    {
+                        territory.Image = CurrentImage;
+                    }
                     _context.Update(territory);
                     await _context.SaveChangesAsync();
                 }

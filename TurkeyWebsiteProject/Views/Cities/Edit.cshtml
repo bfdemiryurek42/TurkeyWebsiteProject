@@ -1,19 +1,20 @@
 ﻿@model TurkeyWebsiteProject.Models.City
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "City Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Edit</h1>
+<h1>Edit City Details</h1>
 
-<h4>City</h4>
+<h4>@Model.Name</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" name="currentImage" id="currentImage" value="@Model.Image" />
             <div class="form-group">
                 <label asp-for="TerritoryId" class="control-label"></label>
                 <select asp-for="TerritoryId" class="form-control" asp-items="ViewBag.TerritoryId"></select>
@@ -31,7 +32,11 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <input asp-for="Image" class="form-control" type="file"/>
+                @if (Model.Image != null)
+                {
+                    <img src="~/img/Cities/@Model.Image" alt="City Image" class="img-thumbnail"/>
+                }
                 <span asp-validation-for="Image" class="text-danger"></span>
             </div>
             <div class="form-group">

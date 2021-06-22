@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -48,7 +50,7 @@ namespace TurkeyWebsiteProject.Controllers
         // GET: ImportantPeople/Create
         public IActionResult Create()
         {
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Image");
+            ViewData["CityId"] = new SelectList(_context.Cities.OrderBy(c=>c.Name), "Id", "Name");
             return View();
         }
 
@@ -57,10 +59,22 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,CityId,FirstName,LastName,Image,DateOfBirth,DateOfDeath")] ImportantPerson importantPerson)
+        public async Task<IActionResult> Create([Bind("Id,CityId,FirstName,LastName,DateOfBirth,DateOfDeath")] ImportantPerson importantPerson, IFormFile Image)
         {
             if (ModelState.IsValid)
             {
+                if (Image != null)
+                {
+                    var filePath = Path.GetTempFileName();
+                    var fileName = Guid.NewGuid() + "-" + Image.FileName;
+                    var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\img\\ImportantPeople\\" + fileName;
+
+                    using (var stream = new FileStream(uploadPath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+                    importantPerson.Image = fileName;
+                }
                 _context.Add(importantPerson);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -82,7 +96,7 @@ namespace TurkeyWebsiteProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Image", importantPerson.CityId);
+            ViewData["CityId"] = new SelectList(_context.Cities.OrderBy(c => c.Name), "Id", "Name", importantPerson.CityId);
             return View(importantPerson);
         }
 
@@ -91,7 +105,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,CityId,FirstName,LastName,Image,DateOfBirth,DateOfDeath")] ImportantPerson importantPerson)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,CityId,FirstName,LastName,DateOfBirth,DateOfDeath")] ImportantPerson importantPerson, IFormFile Image,string CurrentImage)
         {
             if (id != importantPerson.Id)
             {
@@ -102,6 +116,22 @@ namespace TurkeyWebsiteProject.Controllers
             {
                 try
                 {
+                    if (Image != null)
+                    {
+                        var filePath = Path.GetTempFileName();
+                        var fileName = Guid.NewGuid() + "-" + Image.FileName;
+                        var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\img\\ImportantPeople\\" + fileName;
+
+                        using (var stream = new FileStream(uploadPath, FileMode.Create))
+                        {
+                            await Image.CopyToAsync(stream);
+                        }
+                        importantPerson.Image = fileName;
+                    }
+                    else
+                    {
+                        importantPerson.Image = CurrentImage;
+                    }
                     _context.Update(importantPerson);
                     await _context.SaveChangesAsync();
                 }

@@ -18,6 +18,7 @@
     <Folder Include="wwwroot\img\Food\" />
     <Folder Include="wwwroot\img\History\" />
     <Folder Include="wwwroot\img\Cities\" />
+    <Folder Include="wwwroot\img\ImportantPeople\" />
     <Folder Include="wwwroot\img\Territories\" />
   </ItemGroup>
 

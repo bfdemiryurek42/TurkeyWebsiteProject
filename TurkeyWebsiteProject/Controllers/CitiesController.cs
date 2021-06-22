@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -49,8 +51,8 @@ namespace TurkeyWebsiteProject.Controllers
         // GET: Cities/Create
         public IActionResult Create()
         {
-            ViewData["FoodId"] = new SelectList(_context.Foods, "Id", "Image");
-            ViewData["TerritoryId"] = new SelectList(_context.Territories, "Id", "Name");
+            ViewData["FoodId"] = new SelectList(_context.Foods.OrderBy(f=>f.Name), "Id", "Name");
+            ViewData["TerritoryId"] = new SelectList(_context.Territories.OrderBy(t => t.Name), "Id", "Name");
             return View();
         }
 
@@ -59,10 +61,22 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,TerritoryId,FoodId,Name,Image,Description")] City city)
+        public async Task<IActionResult> Create([Bind("Id,TerritoryId,FoodId,Name,Description")] City city,IFormFile Image)
         {
             if (ModelState.IsValid)
             {
+                if (Image != null)
+                {
+                    var filePath = Path.GetTempFileName();
+                    var fileName = Guid.NewGuid() + "-" + Image.FileName;
+                    var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\img\\Cities\\" + fileName;
+
+                    using (var stream = new FileStream(uploadPath, FileMode.Create))
+                    {
+                        await Image.CopyToAsync(stream);
+                    }
+                    city.Image = fileName;
+                }
                 _context.Add(city);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -85,8 +99,8 @@ namespace TurkeyWebsiteProject.Controllers
             {
                 return NotFound();
             }
-            ViewData["FoodId"] = new SelectList(_context.Foods, "Id", "Image", city.FoodId);
-            ViewData["TerritoryId"] = new SelectList(_context.Territories, "Id", "Name", city.TerritoryId);
+            ViewData["FoodId"] = new SelectList(_context.Foods.OrderBy(f => f.Name), "Id", "Name", city.FoodId);
+            ViewData["TerritoryId"] = new SelectList(_context.Territories.OrderBy(t => t.Name), "Id", "Name", city.TerritoryId);
             return View(city);
         }
 
@@ -95,7 +109,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,TerritoryId,FoodId,Name,Image,Description")] City city)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,TerritoryId,FoodId,Name,Description")] City city,IFormFile Image, string CurrentImage)
         {
             if (id != city.Id)
             {
@@ -106,6 +120,22 @@ namespace TurkeyWebsiteProject.Controllers
             {
                 try
                 {
+                    if (Image != null)
+                    {
+                        var filePath = Path.GetTempFileName();
+                        var fileName = Guid.NewGuid() + "-" + Image.FileName;
+                        var uploadPath = System.IO.Directory.GetCurrentDirectory() + "\\wwwroot\\img\\Cities\\" + fileName;
+
+                        using (var stream = new FileStream(uploadPath, FileMode.Create))
+                        {
+                            await Image.CopyToAsync(stream);
+                        }
+                        city.Image = fileName;
+                    }
+                    else
+                    {
+                        city.Image = CurrentImage;
+                    }
                     _context.Update(city);
                     await _context.SaveChangesAsync();
                 }
