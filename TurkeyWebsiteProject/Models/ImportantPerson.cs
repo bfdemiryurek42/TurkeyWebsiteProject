@@ -19,7 +19,9 @@ namespace TurkeyWebsiteProject.Models
         public string Image { get; set; }
 
         [Required]
+        [Display(Name = "Date Of Birth")]
         public DateTime DateOfBirth { get; set; }
+        [Display(Name = "Date Of Death")]
         public DateTime DateOfDeath { get; set; }
 
         public City City { get; set; }

@@ -8,7 +8,6 @@ namespace TurkeyWebsiteProject.Models
 {
     public class City
     {
-        [Range(1,81)]
         public int Id { get; set; }
         [Required]
         [Range(1, 7)]
@@ -16,9 +15,9 @@ namespace TurkeyWebsiteProject.Models
         public int FoodId { get; set; }
         [Required]
         public string Name { get; set; }
+        public string Image { get; set; }
         [Required]
         [MaxLength(500)]
-        public string Image { get; set; }
         public string Description { get; set; }
 
         public Territory Territory { get; set; }

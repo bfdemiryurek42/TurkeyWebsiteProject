@@ -22,7 +22,16 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="History" asp-action="Index">History</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Territories" asp-action="Index">Territories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Cities" asp-action="Index">Cities</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Foods" asp-action="Index">Foods</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="ImportantPeople" asp-action="Index">Important People</a>
                         </li>
                     </ul>
                     <partial name="_LoginPartial" />
@@ -44,6 +53,8 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <!--Table sorting script from https://www.kryogenix.org/code/browser/sorttable/-->
+    <script src="~/js/sorttable.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

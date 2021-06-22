@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TurkeyWebsiteProject.Models.ImportantPerson>
+
+@{
+    ViewData["Title"] = "Important People";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Important People</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table sortable">
+    <thead>
+        <tr>
+            <th>
+                <a href="#">@Html.DisplayNameFor(model => model.FirstName)</a>
+</th>
+            <th>
+                <a href="#">@Html.DisplayNameFor(model => model.LastName)</a>
+</th>
+            <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
+                <a href="#">@Html.DisplayNameFor(model => model.DateOfBirth)</a>
+</th>
+            <th>
+                <a href="#">@Html.DisplayNameFor(model => model.DateOfDeath)</a>
+</th>
+            <th>
+                <a href="#">@Html.DisplayNameFor(model => model.City)</a>
+</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Image)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfBirth)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateOfDeath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.City.Image)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
