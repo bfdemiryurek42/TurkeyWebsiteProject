@@ -72,8 +72,8 @@ body {
 
 
 .img {
-    width: 750px;
-    height: 500px;
+    width: 550px;
+    height: 350px;
     margin-bottom: 20px;
 }
 
@@ -83,5 +83,20 @@ body {
 
 .navbar-light {
     background-color: #EA3333;
+}
+
+.img-food {
+    width: 150px;
+}
+
+.img-city {
+    width: 150px;
+}
+
+.img-territory {
+    width: 400px;
+}
+.img-people {
+    width: 150px;
 }
 

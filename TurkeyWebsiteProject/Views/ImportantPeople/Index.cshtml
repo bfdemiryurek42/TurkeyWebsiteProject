@@ -46,11 +46,11 @@
             <td>
                 @if (item.Image != null)
                 {
-                    <img src="~/img/ImportantPeople/@item.Image" alt="Important Person Image" class="img-thumbnail" />
+                    <img src="~/img/ImportantPeople/@item.Image" alt="Important Person Image" class="img-people" />
                 }
                 else
                 {
-                    <img src="~/img/placeholder.png" alt="Important Person Image" class="img-thumbnail" />
+                    <img src="~/img/placeholder.png" alt="Important Person Image" class="img-people" />
 
                 }
             </td>
@@ -61,7 +61,7 @@
                 @Html.DisplayFor(modelItem => item.DateOfDeath)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.City.Image)
+                @Html.DisplayFor(modelItem => item.City.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |

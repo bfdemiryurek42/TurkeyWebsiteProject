@@ -32,7 +32,15 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Image)
+                @if (item.Image != null)
+                {
+                    <img src="~/img/Food/@item.Image" alt="Food Image" class="img-food" />
+                }
+                else
+                {
+                    <img src="~/img/placeholder.png" alt="Food Image" class="img-food" />
+
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Description)
