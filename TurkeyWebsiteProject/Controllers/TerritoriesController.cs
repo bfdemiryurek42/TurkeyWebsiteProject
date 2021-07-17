@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using TurkeyWebsiteProject.Models;
 
 namespace TurkeyWebsiteProject.Controllers
 {
+    [Authorize(Roles = "ADMINISTRATOR")]
     public class TerritoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -50,7 +52,7 @@ namespace TurkeyWebsiteProject.Controllers
         {
             return View();
         }
-
+            
         // POST: Territories/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
