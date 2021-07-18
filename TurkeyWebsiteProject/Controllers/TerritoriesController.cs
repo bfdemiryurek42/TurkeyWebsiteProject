@@ -13,7 +13,7 @@ using TurkeyWebsiteProject.Models;
 
 namespace TurkeyWebsiteProject.Controllers
 {
-    [Authorize(Roles = "ADMINISTRATOR")]
+    
     public class TerritoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -30,6 +30,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Territories/Details/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -58,6 +59,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Create([Bind("Id,Name")] Territory territory, IFormFile Image)
         {
             if (ModelState.IsValid)
@@ -82,6 +84,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Territories/Edit/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -102,6 +105,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name")] Territory territory, IFormFile Image, string CurrentImage)
         {
             if (id != territory.Id)
@@ -149,6 +153,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Territories/Delete/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -169,6 +174,7 @@ namespace TurkeyWebsiteProject.Controllers
         // POST: Territories/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var territory = await _context.Territories.FindAsync(id);
