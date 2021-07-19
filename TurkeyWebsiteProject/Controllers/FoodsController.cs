@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -28,6 +29,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Foods/Details/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -46,6 +48,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Foods/Create
+        [Authorize(Roles = "ADMINISTRATOR")]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +59,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Create([Bind("Id,Name,Description")] Food food, IFormFile Image)
         {
             if (ModelState.IsValid)
@@ -80,6 +84,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Foods/Edit/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -100,6 +105,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description")] Food food, IFormFile Image, string CurrentImage)
         {
             if (id != food.Id)
@@ -147,6 +153,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Foods/Delete/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -167,6 +174,7 @@ namespace TurkeyWebsiteProject.Controllers
         // POST: Foods/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var food = await _context.Foods.FindAsync(id);

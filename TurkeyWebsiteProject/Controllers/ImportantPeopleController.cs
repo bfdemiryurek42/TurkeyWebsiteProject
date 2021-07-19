@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -29,6 +30,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: ImportantPeople/Details/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -48,6 +50,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: ImportantPeople/Create
+        [Authorize(Roles = "ADMINISTRATOR")]
         public IActionResult Create()
         {
             ViewData["CityId"] = new SelectList(_context.Cities.OrderBy(c=>c.Name), "Id", "Name");
@@ -59,6 +62,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Create([Bind("Id,CityId,FirstName,LastName,DateOfBirth,DateOfDeath")] ImportantPerson importantPerson, IFormFile Image)
         {
             if (ModelState.IsValid)
@@ -84,6 +88,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: ImportantPeople/Edit/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -105,6 +110,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,CityId,FirstName,LastName,DateOfBirth,DateOfDeath")] ImportantPerson importantPerson, IFormFile Image,string CurrentImage)
         {
             if (id != importantPerson.Id)
@@ -153,6 +159,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: ImportantPeople/Delete/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -174,6 +181,7 @@ namespace TurkeyWebsiteProject.Controllers
         // POST: ImportantPeople/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var importantPerson = await _context.ImportantPeople.FindAsync(id);
