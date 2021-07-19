@@ -23,6 +23,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: ImportantPeople
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.ImportantPeople.Include(i => i.City).OrderBy(Ip => Ip.FirstName);

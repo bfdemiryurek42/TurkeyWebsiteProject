@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -22,6 +23,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Cities
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Cities.Include(c => c.Food).Include(c => c.Territory).OrderBy(c=>c.Name);
@@ -29,6 +31,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Cities/Details/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -49,6 +52,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Cities/Create
+        [Authorize(Roles = "ADMINISTRATOR")]
         public IActionResult Create()
         {
             ViewData["FoodId"] = new SelectList(_context.Foods.OrderBy(f=>f.Name), "Id", "Name");
@@ -61,6 +65,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Create([Bind("Id,TerritoryId,FoodId,Name,Description")] City city,IFormFile Image)
         {
             if (ModelState.IsValid)
@@ -87,6 +92,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Cities/Edit/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -109,6 +115,7 @@ namespace TurkeyWebsiteProject.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,TerritoryId,FoodId,Name,Description")] City city,IFormFile Image, string CurrentImage)
         {
             if (id != city.Id)
@@ -158,6 +165,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Cities/Delete/5
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -180,6 +188,7 @@ namespace TurkeyWebsiteProject.Controllers
         // POST: Cities/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "ADMINISTRATOR")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var city = await _context.Cities.FindAsync(id);

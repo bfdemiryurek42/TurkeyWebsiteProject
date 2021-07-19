@@ -23,6 +23,7 @@ namespace TurkeyWebsiteProject.Controllers
         }
 
         // GET: Foods
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await _context.Foods.OrderBy(f=> f.Name).ToListAsync());
