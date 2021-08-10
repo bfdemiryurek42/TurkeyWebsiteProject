@@ -27,7 +27,7 @@ namespace TurkeyWebsiteProject.Controllers
         public async Task<IActionResult> Index()
         {
             var applicationDbContext = _context.Cities.Include(c => c.Food).Include(c => c.Territory).OrderBy(c=>c.Name);
-            return View(await applicationDbContext.ToListAsync());
+            return View("Index", await applicationDbContext.ToListAsync());
         }
 
         // GET: Cities/Details/5
@@ -57,7 +57,7 @@ namespace TurkeyWebsiteProject.Controllers
         {
             ViewData["FoodId"] = new SelectList(_context.Foods.OrderBy(f=>f.Name), "Id", "Name");
             ViewData["TerritoryId"] = new SelectList(_context.Territories.OrderBy(t => t.Name), "Id", "Name");
-            return View();
+            return View("Create");
         }
 
         // POST: Cities/Create
