@@ -71,12 +71,40 @@ namespace TurkeyWebsiteProjectTest
         }
 
         [TestMethod]
-        public void CreateMethodTest()
+        public void CreateGetView()
         {
-            var result = controller.Create(City city, IFormFile image);
+            var result = controller.Create();
             var view = (ViewResult)result;
             Assert.AreEqual("Create", view.ViewName);
         }
+
+        [TestMethod]
+        public void CreatePostMethodTest()
+        {
+            City newCity = new City { Id = 105, Name = "City 4", Description = "City 4 Description", TerritoryId = 100 , FoodId = 101, Image = Guid.NewGuid().ToString() };
+            var result = controller.Create(newCity, null);
+            var city = _context.Cities.Where(c => c.Name == newCity.Name);
+            Assert.IsNotNull(city);
+        }
+
+        [TestMethod]
+        public void CreatePostMethodIsCityInDBTest()
+        {
+            City newCity1 = new City { Id = 106, Name = "City 5", Description = "City 5 Description", TerritoryId = 100, FoodId = 101, Image = Guid.NewGuid().ToString() };
+            var result = controller.Create(newCity1, null);
+            var city = _context.Cities.Where(c => c.Name == newCity1.Name).FirstOrDefault();
+            Assert.AreEqual(newCity1, city);
+        }
+
+        [TestMethod]
+        public void CreatePostMethodIsImageNullTest()
+        {
+            City newCity2 = new City { Id = 107, Name = "City 6", Description = "City 6 Description", TerritoryId = 100, FoodId = 101, Image = Guid.NewGuid().ToString() };
+            var result = controller.Create(newCity2, null);
+            var city = _context.Cities.Where(c => c.Image == newCity2.Image).FirstOrDefault();
+            Assert.IsNotNull(city);
+        }
+
 
 
 
