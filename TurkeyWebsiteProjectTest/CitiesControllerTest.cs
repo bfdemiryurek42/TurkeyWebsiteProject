@@ -105,8 +105,5 @@ namespace TurkeyWebsiteProjectTest
             Assert.IsNotNull(city);
         }
 
-
-
-
     }
 }
